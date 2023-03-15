@@ -1,7 +1,6 @@
 from requests import Request, Session
 from requests.exceptions import ConnectionError, Timeout, TooManyRedirects
 import json
-import pymongo
 from db import CMCcollection
 
 url = 'https://pro-api.coinmarketcap.com/v1/cryptocurrency/quotes/latest'
@@ -19,14 +18,14 @@ headers = {
 session = Session()
 session.headers.update(headers)
 
-try:
-    response = session.get(url, params=parameters)
-    dataCMC = json.loads(response.text)
+def save_in_database():
+  try:
+      response = session.get(url, params=parameters)
+      dataCMC = json.loads(response.text)
 
-    # Enviar Datos a ka Colección
-    CMCcollection.insert_one(dataCMC)
-    
-    print("Datos guardados en MongoDB Atlas!")
-    
-except (ConnectionError, Timeout, TooManyRedirects) as e:
-    print(e)
+      # Enviar Datos a ka Colección
+      CMCcollection.insert_one(dataCMC)
+      print(dataCMC)
+      print("Datos guardados en MongoDB Atlas!")
+  except (ConnectionError, Timeout, TooManyRedirects) as e:
+      print(e)

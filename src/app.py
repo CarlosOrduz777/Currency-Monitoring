@@ -1,17 +1,15 @@
-from flask import Flask, Response, g
+from flask import Flask, Response, render_template 
 from flask_pymongo import pymongo
 from bson import json_util
 from werkzeug.local import LocalProxy
-import db
-from db import user_collection
+from db import CMC_collection
 
 app = Flask(__name__)
 
-@app.route('/coins',methods=['GET'])
-def get_criptocoins():
-    coins = user_collection.find()
-    response = json_util.dumps(coins)
-    return Response(response,mimetype='application/json')
+@app.route('/')
+def index():
+    dataCMC = CMC_collection.find_one()
+    return render_template('index.html', dataCMC=dataCMC)
 
 if __name__== "__main__":
     app.run(debug=True)

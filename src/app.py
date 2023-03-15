@@ -3,7 +3,6 @@ from flask_pymongo import pymongo
 from bson import json_util
 from werkzeug.local import LocalProxy
 from db import CMCcollection
-from coin_market_scheduler import schedule_market_api
 from apscheduler.schedulers.background import BackgroundScheduler
 import os
 from CMC import save_in_database

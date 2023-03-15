@@ -11,5 +11,5 @@ def index():
     data = CMCcollection.find_one()
     return render_template('index.html', data = data)
 
-if __name__== "main_":
+if __name__== "__main__":
     app.run(debug=True)

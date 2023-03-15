@@ -1,0 +1,28 @@
+/* Definición de estilos para la tabla */
+table {
+    border-collapse: collapse;
+    width: 100%;
+    margin-top: 20px;
+}
+  
+th, td {
+    text-align: left;
+    padding: 8px;
+}
+  
+th {
+    background-color: #ccc;
+}
+  
+tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+  
+  /* Definición de estilos para el encabezado de la página */
+h1 {
+    text-align: center;
+    font-size: 28px;
+    margin-top: 40px;
+    margin-bottom: 20px;
+}
+  

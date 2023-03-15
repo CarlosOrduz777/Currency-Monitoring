@@ -2,7 +2,7 @@ from requests import Request, Session
 from requests.exceptions import ConnectionError, Timeout, TooManyRedirects
 import json
 import pymongo
-from db import CMC_collection
+from db import CMCcollection
 
 url = 'https://pro-api.coinmarketcap.com/v1/cryptocurrency/quotes/latest'
 
@@ -21,10 +21,10 @@ session.headers.update(headers)
 
 try:
     response = session.get(url, params=parameters)
-    data = json.loads(response.text)
+    dataCMC = json.loads(response.text)
 
     # Enviar Datos a ka Colección
-    CMC_collection.insert_one(data)
+    CMCcollection.insert_one(dataCMC)
     
     print("Datos guardados en MongoDB Atlas!")
     

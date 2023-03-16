@@ -9,15 +9,16 @@ from CMC import save_in_database
 import time
 
 scheduler = BackgroundScheduler(daemon=True)
-scheduler.add_job(save_in_database, 'interval', seconds=60)
+scheduler.add_job(save_in_database, 'interval', seconds=300)
 scheduler.start()
 
 app = Flask(__name__)
 
-@app.route('/',methods=['GET'])
+@app.route('/v1/coins',methods=['GET'])
 def index():
-    data = CMCcollection.find_one()
-    return render_template('index.html', data = data)
+    data_coins = CMCcollection.find_one()
+    response = json_util.dumps(data_coins)
+    return Response(response,mimetype='application/json')
 
 if __name__== "__main__":
     app.run(debug=True)

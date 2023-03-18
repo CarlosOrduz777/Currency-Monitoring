@@ -1,7 +1,9 @@
 from requests import Request, Session
 from requests.exceptions import ConnectionError, Timeout, TooManyRedirects
 import json
-from db import CMCcollection
+import pymongo
+from db import CMCHistorycollection
+from datetime import datetime
 
 url = 'https://pro-api.coinmarketcap.com/v1/cryptocurrency/quotes/latest'
 
@@ -23,9 +25,13 @@ def save_in_database():
       response = session.get(url, params=parameters)
       dataCMC = json.loads(response.text)
 
-      # Enviar Datos a ka Colección
-      CMCcollection.insert_one(dataCMC)
-      print(dataCMC)
+      # Agregar fecha y hora al registro
+      now = datetime.now()
+      dataCMC['timestamp'] = now.strftime('%Y-%m-%d %H:%M:%S')
+
+      # Insertar registro en la colección de historial
+      CMCHistorycollection.insert_one(dataCMC)
       print("Datos guardados en MongoDB Atlas!")
+      
   except (ConnectionError, Timeout, TooManyRedirects) as e:
       print(e)

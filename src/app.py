@@ -2,21 +2,22 @@ from flask import Flask, Response, render_template
 from flask_pymongo import pymongo
 from bson import json_util
 from werkzeug.local import LocalProxy
-from db import CMCcollection
-from apscheduler.schedulers.background import BackgroundScheduler
+from db import CMCHistorycollection
+import time
 import os
 from CMC import save_in_database
-import time
+from apscheduler.schedulers.background import BackgroundScheduler
 
 scheduler = BackgroundScheduler(daemon=True)
 scheduler.add_job(save_in_database, 'interval', seconds=300)
 scheduler.start()
 
+
 app = Flask(__name__)
 
-@app.route('/v1/coins',methods=['GET'])
+@app.route('/v2/coins',methods=['GET'])
 def index():
-    data_coins = CMCcollection.find_one()
+    data_coins = CMCHistorycollection.find().sort('timestamp', pymongo.DESCENDING).limit(1)[0]
     response = json_util.dumps(data_coins)
     return Response(response,mimetype='application/json')
 

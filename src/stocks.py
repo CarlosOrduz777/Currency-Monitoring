@@ -32,7 +32,7 @@ apple = yf.Ticker('aapl')
 google = yf.Ticker('goog')
 #print(msft.fast_info)
 #print([msft.fast_info['timezone'],msft.fast_info['lastPrice']])
-now = datetime.now().strftime('%H:%M:%S')
+now = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
 #print(now)
 dct = {'Microsoft':{'datetime': now, 'price' :microsoft.fast_info['lastPrice'] },
        'AMD': {'datetime': now, 'price': amd.fast_info['lastPrice']},
@@ -44,8 +44,9 @@ file = json.dumps(dct, indent = 4)
 print (file)
 
 # Enviar Datos a ka Colección
-data = json.loads(file)
-try:
-      stockcollection.insert_one(data)
-except (ConnectionError, Timeout, TooManyRedirects) as e:
+def load_current_stock_prices():
+    data = json.loads(file)
+    try:
+        stockcollection.insert_one(data)
+    except (ConnectionError, Timeout, TooManyRedirects) as e:
       print(e)

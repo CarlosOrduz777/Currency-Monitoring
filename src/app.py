@@ -5,12 +5,17 @@ from werkzeug.local import LocalProxy
 from db import CMCcollection
 from apscheduler.schedulers.background import BackgroundScheduler
 import os
+from stocks import load_current_stock_prices
 from CMC import save_in_database
 import time
 
+
 scheduler = BackgroundScheduler(daemon=True)
-scheduler.add_job(save_in_database, 'interval', seconds=60)
+#scheduler.add_job(save_in_database, 'interval', seconds=60)
+scheduler.add_job(load_current_stock_prices, 'interval', seconds=300)
 scheduler.start()
+
+
 
 app = Flask(__name__)
 

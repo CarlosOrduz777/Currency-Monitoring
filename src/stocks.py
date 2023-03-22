@@ -50,3 +50,5 @@ def load_current_stock_prices():
         stockcollection.insert_one(data)
     except (ConnectionError, Timeout, TooManyRedirects) as e:
       print(e)
+
+load_current_stock_prices

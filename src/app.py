@@ -11,7 +11,7 @@ import time
 
 
 scheduler = BackgroundScheduler(daemon=True)
-#scheduler.add_job(save_in_database, 'interval', seconds=60)
+scheduler.add_job(save_in_database, 'interval', seconds=300)
 scheduler.add_job(load_current_stock_prices, 'interval', seconds=300)
 scheduler.start()
 

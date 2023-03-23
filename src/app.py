@@ -8,14 +8,15 @@ import os
 from stocks import load_current_stock_prices
 from CMC import save_in_database
 import time
+import atexit 
 
 
 scheduler = BackgroundScheduler(daemon=True)
-scheduler.add_job(save_in_database, 'interval', seconds=300)
-scheduler.add_job(load_current_stock_prices, 'interval', seconds=300)
+scheduler.add_job(save_in_database, 'interval', seconds=60)
+scheduler.add_job(load_current_stock_prices, 'interval', seconds=60)
 scheduler.start()
 
-
+atexit.register(lambda : scheduler.shutdown())
 
 app = Flask(__name__)
 

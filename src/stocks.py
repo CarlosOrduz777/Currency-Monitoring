@@ -26,30 +26,33 @@ def closingPrice(data):
 #data = pd.DataFrame(pd1, columns = ['Datetime', 'price'])
 #print (data)
 
-microsoft = yf.Ticker('msft')
-amd = yf.Ticker('amd')
-apple = yf.Ticker('aapl')
-google = yf.Ticker('goog')
+
 #print(msft.fast_info)
 #print([msft.fast_info['timezone'],msft.fast_info['lastPrice']])
-now = datetime.now()
+
 
 #print(now)
-dct = {'Microsoft':{ 'price' :microsoft.fast_info['lastPrice'] },
+
+#print(dct)
+#print (dct)
+
+#print (file)
+# Enviar Datos a ka Colección
+def load_current_stock_prices():
+    try:
+        microsoft = yf.Ticker('msft')
+        amd = yf.Ticker('amd')
+        apple = yf.Ticker('aapl')
+        google = yf.Ticker('goog')
+        now = datetime.now()
+        dct = {'Microsoft':{ 'price' :microsoft.fast_info['lastPrice'] },
        'AMD': {'price': amd.fast_info['lastPrice']},
        'Apple': {'price': apple.fast_info['lastPrice']},
        'Google': {'price': amd.fast_info['lastPrice']},
        'datetime' : now.strftime('%Y-%m-%d %H:%M:%S'),
        }
-
-#print (dct)
-file = json.dumps(dct, indent = 4)
-#print (file)
-
-# Enviar Datos a ka Colección
-def load_current_stock_prices():
-    data = json.loads(file)
-    try:
+        file = json.dumps(dct, indent = 4)
+        data = json.loads(file)
         stockcollection.insert_one(data)
         print('Stocks prices inserted in Mongo!')
     except (ConnectionError, Timeout, TooManyRedirects) as e:

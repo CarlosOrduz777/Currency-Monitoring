@@ -25,7 +25,9 @@ def save_in_database():
 
       # Enviar Datos a ka Colección
       CMCcollection.insert_one(dataCMC)
-      print(dataCMC)
+      #print(dataCMC)
       print("Datos guardados en MongoDB Atlas!")
   except (ConnectionError, Timeout, TooManyRedirects) as e:
       print(e)
+
+save_in_database()

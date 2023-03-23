@@ -57,5 +57,3 @@ def load_current_stock_prices():
         print('Stocks prices inserted in Mongo!')
     except (ConnectionError, Timeout, TooManyRedirects) as e:
       print(e)
-
-load_current_stock_prices()

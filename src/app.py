@@ -6,9 +6,9 @@ from db import CMCHistorycollection
 from CMC import save_in_database
 from apscheduler.schedulers.background import BackgroundScheduler
 
-#scheduler = BackgroundScheduler(daemon=True)
-#scheduler.add_job(save_in_database, 'interval', seconds=300)
-#scheduler.start()
+scheduler = BackgroundScheduler(daemon=True)
+scheduler.add_job(save_in_database, 'interval', seconds=300)
+scheduler.start()
 
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "http://localhost:3000"}})

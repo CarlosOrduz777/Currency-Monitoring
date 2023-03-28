@@ -2,10 +2,10 @@ from flask import Flask, Response
 from flask_cors import CORS
 from flask_pymongo import pymongo
 from bson import json_util
-from db import CMCHistorycollection
+from db import CMCHistorycollection, stockcollection
 
 from stocks import load_current_stock_prices
-from CMC import save_in_database
+from CMC import save_in_database 
 import atexit
 
 from apscheduler.schedulers.background import BackgroundScheduler
@@ -25,6 +25,13 @@ def get_coins():
     data_coins = CMCHistorycollection.find().sort('timestamp', pymongo.ASCENDING)
     response = json_util.dumps(data_coins)
     return Response(response, mimetype='application/json')
+
+@app.route('/v1/stocks', methods=['GET'])
+def get_stocks():
+    data_stocks = stockcollection.find().sort('timestamp', pymongo.ASCENDING)
+    response = json_util.dumps(data_stocks)
+    return Response(response, mimetype='application/json')
+
 
 @app.after_request
 def after_request(response):
